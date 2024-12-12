@@ -1,27 +1,74 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Nomor2 {
-    public static void main(String[] args){
-        Scanner input = new Scanner(System.in);
-        int N = input.nextInt();
-        /* Pekerjaan anda mulai dari sini */
-        
-        System.out.println("Deret angka dari 1 hingga " + N + ":");
-        for (int i = 1; i <= N; i++) {
-            System.out.print(i + " ");
+    static int[] hargaBuku = {350000, 450000, 500000, 95000};
+    
+    static String[] namaBuku = {
+        "Sherlock Holmes", 
+        "Arsene Lupin", 
+        "Game of Throne", 
+        "Psychology of Money"
+    };
+    
+    public static void tampilkanDaftarBuku() {
+        System.out.println("Daftar Buku:");
+        for (int i = 0; i < namaBuku.length; i++) {
+            System.out.println(namaBuku[i] + " " + hargaBuku[i]);
         }
         System.out.println();
-
-        int sum = 0;
-        for (int i = 1; i <= N; i++) {
-            sum += i;
-        }
-        System.out.println("Jumlah deret angka dari 1 hingga " + N + " adalah: " + sum);
-
-        double rataRata = (double) sum / N;
-        System.out.println("Rata-rata deret angka dari 1 hingga " + N + " adalah: " + rataRata);
-
-        /* Pekerjaan anda berakhir sini */
-        System.out.println(Nomor2.class.getDeclaredMethods().length); 
     }
+    
+    public static int hitungTotalHarga(ArrayList<Integer> daftarBuku) {
+        int totalHarga = 0;
+        for (int harga : daftarBuku) {
+            totalHarga += harga;
+        }
+        return totalHarga;
+    }
+    
+    public static int hitungVoucher(int totalHarga) {
+        int voucher = 0;
+        if (totalHarga >= 200000 && totalHarga < 500000) {
+            voucher = 50000;
+        } else if (totalHarga >= 500000 && totalHarga < 750000) {
+            voucher = 100000;
+        } else if (totalHarga >= 750000 && totalHarga <= 1000000) {
+            voucher = 150000;
+        } else if (totalHarga > 1000000) {
+            voucher = 200000;
+        }
+        return voucher;
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Integer> keranjangBuku = new ArrayList<>();
+        
+        tampilkanDaftarBuku();
+        
+        while (true) {
+            System.out.print("Masukan pilihan buku [1/2/3/4]: ");
+            int pilihan = scanner.nextInt();
+            
+            keranjangBuku.add(hargaBuku[pilihan - 1]);
+            
+            System.out.print("Input lagi (Y/N)?: ");
+            String konfirmasi = scanner.next();
+            
+            if (konfirmasi.equalsIgnoreCase("N")) {
+                break;
+            }
+        }
+        
+        int totalHarga = hitungTotalHarga(keranjangBuku);
+
+        int voucher = hitungVoucher(totalHarga);
+        
+        System.out.println("Total voucher belanja = " + voucher);
+        System.out.println("Total yang harus dibayar = " + (totalHarga));
+        
+        scanner.close();
+        System.out.println("\n" + Nomor2.class.getDeclaredMethods().length);
+    }
 }
